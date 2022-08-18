@@ -21,8 +21,9 @@ select max(height), min(height), max(weight), min(weight) from healthcare;
 select count(*) from healthcare where height >=160 and height <= 170;
 
 --5. 음주(is_drinking)를 하는 사람(1)의 허리 둘레(waist)를 높은 순으로 5명 출력하시오.
-select waist from healthcare where is_drinking = 1 order by waist desc  limit 5;
--->null 값으로나옴...
+select waist from healthcare where is_drinking = 1 and waist <> '' order by waist desc limit 5;
+select waist, id from healthcare where is_drinking = 1 and waist != '' order by waist desc limit 5;
+-->'' 값으로나옴...
 
 --6. 시력 양쪽(va_left, va_right)이 1.5이상이면서 음주(is_drinking)를 하는 사람의 수를 출력하시오.
 select count(*) from healthcare where va_left >= 1.5 and va_right >= 1.5 and is_drinking =1;
@@ -43,7 +44,10 @@ select id, height, weight from healthcare where height = 195 order by weight des
 
 
 --11. BMI가 30이상인 사람의 수를 출력하시오. BMI는 체중/(키*키)의 계산 결과이다.
-select count(*) from healthcare where weight/((height*height)/100) >= 30;
+select count(*)
+from healthcare 
+where weight/((height*0.01)*(height*0.01)) >= 30;
 
 --12. 흡연(smoking)이 3인 사람의 BMI지수가 제일 높은 사람 순서대로 5명의 id와 BMI를 출력하시오.
-select id, weight/((height*height)/100) from healthcare where smoking = 3 order bylimit 5;
+select id, weight/((height*height)/100) BMI
+from healthcare where smoking = 3 order by BMI limit 5;
